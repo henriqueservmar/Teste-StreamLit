@@ -3,7 +3,7 @@ import streamlit as st
 import numpy as np
 
 # Definindo o título da aba, ícone e layout
-titulo_aba = "Meu Aplicativo"
+titulo_aba = "Teste SERVMAR"
 icone_aba = "👀"  # Substitua pelo emoji ou caminho do ícone desejado
 layout_aba = "centered"  # Outras opções: "centered"
 
