@@ -1,7 +1,4 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
-import seaborn as sns
 
 # Definindo o título da aba, ícone e layout
 titulo_aba = "Meu Aplicativo"
@@ -10,9 +7,6 @@ layout_aba = "centered"  # Outras opções: "centered"
 
 # Usando st.set_page_config para configurar título, ícone e layout da aba
 st.set_page_config(page_title=titulo_aba, page_icon=icone_aba, layout=layout_aba)
-
-# Define o estilo Seaborn
-sns.set_style("darkgrid")  # Substitua "darkgrid" pelo estilo desejado
 
 # Título do aplicativo
 st.title('Aplicativo Streamlit Interativo')
