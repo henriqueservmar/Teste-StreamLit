@@ -4,6 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+---
 # Definindo o título da aba, ícone e layout
 titulo_aba = "Meu Aplicativo"
 icone_aba = "👀"  # Substitua pelo emoji ou caminho do ícone desejado
