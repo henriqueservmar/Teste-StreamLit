@@ -2,10 +2,17 @@ import pandas as pd
 from openpyxl import Workbook
 
 def main(uploaded_file, novo_caminho):
-    # Leia a variável do arquivo compartilhador.xlsx
+    # Ler o arquivo compartilhador.xlsx
     tabela = pd.read_excel(uploaded_file)
 
-    tabela_bd = pd.read_excel(r'Tabelas Consulta/Banco de Dados\banco de dados - CEIMIC.xlsx')
+    # URL do arquivo Excel no GitHub
+    url = "https://github.com/henriqueservmar/Teste-StreamLit/raw/main/Tabelas%20Consulta/Banco%20de%20Dados/banco%20de%20dados%20-%20CEIMIC.xlsx"
+
+    # Ler o arquivo Excel da URL
+    tabela_bd = pd.read_excel(url)
+
+    # Agora você pode usar a tabela_bd em seu código
+    print(tabela_bd)
 
     colunas_merge = ["ANALYTE", "Description"]
 
