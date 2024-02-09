@@ -11,9 +11,6 @@ def main(uploaded_file, novo_caminho):
     # Ler o arquivo Excel da URL
     tabela_bd = pd.read_excel(url)
 
-    # Agora você pode usar a tabela_bd em seu código
-    print(tabela_bd)
-
     colunas_merge = ["ANALYTE", "Description"]
 
     # Pega todos os itens que têm em comum em relação à coluna "Análise" e "Descrição Método", junta em uma planilha só e salva como "Resultado_Merge.xlsx"
