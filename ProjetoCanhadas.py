@@ -1,5 +1,11 @@
 import streamlit as st
 import os
+import subprocess
+
+# Instalar o pacote openpyxl
+subprocess.run(["pip", "install", "openpyxl"])
+
+# Agora você pode importar o pacote openpyxl
 import openpyxl
 
 def abrir_radiobutton_modal_3_valores(contador, escolha_anterior=None,):
