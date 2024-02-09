@@ -84,6 +84,7 @@ def main(novo_caminho):
                     # Modificação: Usar .loc para evitar atribuição encadeada
                     data_frame_final['%'].loc[0, coluna_atual] = valor_segunda_linha
 
+
         # Adiciona a aba original (possivelmente modificada) ao dicionário
         data_frame_final[sheet_name] = data_frame_tabelado
 
