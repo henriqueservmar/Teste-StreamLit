@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 import os
 import openpyxl
 
@@ -400,9 +399,15 @@ def main():
     uploaded_file = st.file_uploader("Carregar Excel:", type=["xlsx", "xls"], key="excel_uploader_1",label_visibility="visible")
 
     if uploaded_file:
-        df = pd.read_excel(uploaded_file)
+        workbook = openpyxl.load_workbook(uploaded_file)
+        sheet = workbook.active
+
+        data = []
+        for row in sheet.iter_rows(values_only=True):
+            data.append(row)
+
         st.write("Dados do Excel:")
-        st.write(df)
+        st.write(data)
 
         # Extrair diretório do caminho do arquivo escolhido
         diretório, _ = os.path.split(uploaded_file.name)
