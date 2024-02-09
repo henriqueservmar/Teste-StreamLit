@@ -1,6 +1,6 @@
 import streamlit as st
 import os
-import openpyxl
+import pandas as pd
 
 def abrir_radiobutton_modal_3_valores(contador, escolha_anterior=None,):
     valor_primario = None
