@@ -81,7 +81,8 @@ def main(novo_caminho):
                 if coluna_atual in data_frame_final['%'].columns:
                     # Pegar o valor da segunda linha da coluna atual e inserir na aba '%'
                     valor_segunda_linha = data_frame_tabelado[coluna_atual].iloc[0]
-                    data_frame_final['%'][coluna_atual][0] = valor_segunda_linha
+                    # Modificação: Usar .loc para evitar atribuição encadeada
+                    data_frame_final['%'].loc[0, coluna_atual] = valor_segunda_linha
 
         # Adiciona a aba original (possivelmente modificada) ao dicionário
         data_frame_final[sheet_name] = data_frame_tabelado
