@@ -376,12 +376,17 @@ def carregar_analise_2_valores(uploaded_file, novo_caminho, escolha, quantidade_
         Organizar.main(novo_caminho)
         progresso += 40
         yield progresso
+        df = pd.read_excel(novo_caminho)
+        st.write(df)
+
 
         # Etapa 3: Analise2
         import Analise2
         Analise2.main(novo_caminho, valor_primario, ordem_planilhas, valor_secundario, ordem_planilhas2)
         progresso += 35
         yield progresso
+        df = pd.read_excel(novo_caminho)
+        st.write(df)
 
 def main():
 
