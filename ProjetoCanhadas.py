@@ -359,7 +359,7 @@ def carregar_analise_3_valores(uploaded_file, novo_caminho, escolha, quantidade_
         progresso += 34
         yield progresso
 
-def carregar_analise_2_valores(uploaded_file, novo_caminho, caminho_final, escolha, quantidade_analise, valor_primario, ordem_planilhas, valor_secundario, ordem_planilhas2):
+def carregar_analise_2_valores(uploaded_file, novo_caminho, escolha, quantidade_analise, valor_primario, ordem_planilhas, valor_secundario, ordem_planilhas2):
     progresso = 0
     
 
@@ -369,14 +369,17 @@ def carregar_analise_2_valores(uploaded_file, novo_caminho, caminho_final, escol
         Ceimic.main(uploaded_file, novo_caminho)
         progresso += 25
         yield progresso
+
+
         # Etapa 2: Organizar
         import Organizar
-        Organizar.main(novo_caminho, caminho_final)
+        Organizar.main(novo_caminho)
         progresso += 40
         yield progresso
+
         # Etapa 3: Analise2
         import Analise2
-        Analise2.main(caminho_final, valor_primario, ordem_planilhas, valor_secundario, ordem_planilhas2)
+        Analise2.main(novo_caminho, valor_primario, ordem_planilhas, valor_secundario, ordem_planilhas2)
         progresso += 35
         yield progresso
 
@@ -410,8 +413,6 @@ def main():
             novo_caminho = os.path.join(diretório, nome_arquivo + ".xlsx")
         else:
             novo_caminho = os.path.join(diretório, ".xlsx")
-
-        caminho_final = novo_caminho
 
         
         col1, col2 = st.columns(2)
@@ -458,11 +459,11 @@ def main():
            
             st.divider()  # 👈 Draws a horizontal rule
 
-            if st.button("Fazer Análise", help="Clique apenas quando todos os valores forem escolhidos!", type="primary"):
+            if st.button("Fazer Análise", type="primary"):
                 progresso_placeholder = st.empty()
                 progresso_bar = progresso_placeholder.progress(0)
                 if quantidade_analise == 2:
-                    for progresso in carregar_analise_2_valores(uploaded_file, novo_caminho, caminho_final, escolha, quantidade_analise, valor_primario, ordem_planilhas, valor_secundario, ordem_planilhas2):
+                    for progresso in carregar_analise_2_valores(uploaded_file, novo_caminho, escolha, quantidade_analise, valor_primario, ordem_planilhas, valor_secundario, ordem_planilhas2):
                         progresso_bar.progress(progresso)
                 elif quantidade_analise == 3:
                     for progresso in carregar_analise_3_valores(uploaded_file, novo_caminho, escolha, quantidade_analise, valor_primario, ordem_planilhas, valor_secundario, ordem_planilhas2, valor_terceario, ordem_planilhas3):
@@ -470,6 +471,8 @@ def main():
 
                 # Adiciona a funcionalidade de download
                 download_excel(novo_caminho)
+                df = pd.read_excel(novo_caminho)
+                st.write(df)
 
 def download_excel(novo_caminho):
     # Configurar o nome do arquivo para download

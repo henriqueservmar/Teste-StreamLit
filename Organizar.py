@@ -1,6 +1,6 @@
 import pandas as pd
 
-def main(novo_caminho, caminho_final):
+def main(novo_caminho):
     # Ler o arquivo Excel
     caminho_excel = novo_caminho
     excel = pd.ExcelFile(caminho_excel)
@@ -93,7 +93,7 @@ def main(novo_caminho, caminho_final):
         data_frame_final['%'] = data_frame_final.pop('%')
 
     # Salvar o resultado em um novo arquivo Excel
-    with pd.ExcelWriter(caminho_final) as writer:
+    with pd.ExcelWriter(caminho_excel) as writer:
         for sheet_name, df in data_frame_final.items():
             df.to_excel(writer, sheet_name=sheet_name, index=False)
 
