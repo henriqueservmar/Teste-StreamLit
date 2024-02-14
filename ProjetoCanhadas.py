@@ -10,12 +10,12 @@ def abrir_radiobutton_modal_3_valores(contador, escolha_anterior=None,):
     valor_terceario = None
     ordem_planilhas3 = None
 
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3)
     with col1:
         # Gerar uma chave única para o widget radio
         chave_radio = f"lab_radio_{contador}"
-        escolha1 = st.radio("Escolha o Primeiro Valor de Referencia", ["Cetesb", "EPA", "Lista Holandesa", "Conama-420"], key=chave_radio, index=None)
-    with col2:
+        escolha1 = st.radio("Primeiro Valor de Referencia:", ["Cetesb", "EPA", "Lista Holandesa", "Conama-420"], key=chave_radio, index=None)
+    with col1:
         if escolha1 == "Cetesb" or escolha1 != escolha_anterior:
             if escolha1 == "Cetesb":
                 ordem_planilhas = "c"
@@ -74,9 +74,9 @@ def abrir_radiobutton_modal_3_valores(contador, escolha_anterior=None,):
 
     contador = 3
 
-    with col1:
+    with col2:
         chave_radio = f"lab_radio_{contador}"
-        escolha = st.radio("Escolha o Segundo Valor de Referencia", ["Cetesb", "EPA", "Lista Holandesa", "Conama-420"], key=chave_radio, index=None)
+        escolha = st.radio("Segundo Valor de Referencia:", ["Cetesb", "EPA", "Lista Holandesa", "Conama-420"], key=chave_radio, index=None)
     with col2:
         if escolha == "Cetesb" or escolha != escolha_anterior:
             if escolha == "Cetesb":
@@ -136,11 +136,11 @@ def abrir_radiobutton_modal_3_valores(contador, escolha_anterior=None,):
 
     contador = 4
 
-    with col1:
+    with col3:
         chave_radio = f"lab_radio_{contador}"
-        escolha2 = st.radio("Escolha o Terceiro Valor de Referencia", ["Cetesb", "EPA", "Lista Holandesa", "Conama-420"], key=chave_radio, index=None)
+        escolha2 = st.radio("Terceiro Valor de Referencia:", ["Cetesb", "EPA", "Lista Holandesa", "Conama-420"], key=chave_radio, index=None)
     
-    with col2:
+    with col3:
         if escolha2 == "Cetesb" or escolha2 != escolha_anterior:
             if escolha2 == "Cetesb":
                 ordem_planilhas3 = "c"
@@ -211,11 +211,11 @@ def abrir_radiobutton_modal_2_valores(contador, escolha_anterior=None,):
     with st.container(border=True):  
         with col1:
             chave_radio = f"lab_radio_{contador}"
-            escolha1 = st.radio("Escolha o Primeiro Valor de Referencia", ["Cetesb", "EPA", "Lista Holandesa", "Conama-420"], key=chave_radio, index=None)
+            escolha1 = st.radio("Primeiro Valor de Referencia:", ["Cetesb", "EPA", "Lista Holandesa", "Conama-420"], key=chave_radio, index=None)
 
-        with col2:
+        with col1:
             if escolha1 == "Cetesb" or escolha1 != escolha_anterior:
-                with col2:
+                with col1:
                     if escolha1 == "Cetesb":
                         ordem_planilhas = "c"
                         # Gerar uma chave única para o widget radio dentro do if
@@ -274,9 +274,9 @@ def abrir_radiobutton_modal_2_valores(contador, escolha_anterior=None,):
     contador = 3
     
     with st.container(border=True):  
-        with col1:
+        with col2:
             chave_radio = f"lab_radio_{contador}"
-            escolha = st.radio("Escolha o Segundo Valor de Referencia", ["Cetesb", "EPA", "Lista Holandesa", "Conama-420"], key=chave_radio, index=None)
+            escolha = st.radio("Segundo Valor de Referencia:", ["Cetesb", "EPA", "Lista Holandesa", "Conama-420"], key=chave_radio, index=None)
 
         if escolha == "Cetesb" or escolha != escolha_anterior:
             with col2:
@@ -384,23 +384,23 @@ def carregar_analise_2_valores(uploaded_file, novo_caminho, escolha, quantidade_
 
 def main():
 
-    hide_menu_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-                footer {visibility: hidden;}
-                header {visibility: hidden;}
-            </style>
-            """
-    st.markdown(hide_menu_style, unsafe_allow_html=True)
-    
+#    hide_menu_style = """
+#            <style>
+#            #MainMenu {visibility: hidden;}
+#                footer {visibility: hidden;}
+#                header {visibility: hidden;}
+#            </style>
+#            """
+#    st.markdown(hide_menu_style, unsafe_allow_html=True)
+
     st.title("SERVMAR")
     st.subheader("Projeto Canhadas")
     
-    uploaded_file = st.file_uploader("Carregar Excel:", type=["xlsx", "xls"], key="excel_uploader_1",label_visibility="visible")
+    uploaded_file = st.file_uploader("Carregue seu arquivo Excel:", type=["xlsx", "xls"], key="excel_uploader_1",label_visibility="visible")
 
     if uploaded_file:
         df = pd.read_excel(uploaded_file)
-        st.write("Dados do Excel:")
+        st.write("Dados do arquivo Excel:")
         st.write(df)
 
         # Extrair diretório do caminho do arquivo escolhido
@@ -413,12 +413,17 @@ def main():
         else:
             novo_caminho = os.path.join(diretório, ".xlsx")
 
-        escolha = st.radio("Escolha de qual laboratório a análise deve ser feita", ["Ceimic"], key="escolha_laboratorio_1")
         
-        # Mapeamento de opções de texto para valores numéricos
-        quantidade_analise_options = {"2 Valores Orientadores": 2, "3 Valores Orientadores": 3}
-        # Usando os textos descritivos no widget, mas obtendo os valores numéricos quando necessário
-        quantidade_analise_texto = st.radio("Escolha a quantidade de Valores Orientadores", list(quantidade_analise_options.keys()), key="quantidade_analise_1", index=None)
+        col1, col2 = st.columns(2)
+
+        with col1:
+            escolha = st.radio("Escolha de qual laboratório a análise deve ser feita:", ["Ceimic"], key="escolha_laboratorio_1")
+        
+        with col2:
+            # Mapeamento de opções de texto para valores numéricos
+            quantidade_analise_options = {"2 Valores Orientadores": 2, "3 Valores Orientadores": 3}
+            # Usando os textos descritivos no widget, mas obtendo os valores numéricos quando necessário
+            quantidade_analise_texto = st.radio("Escolha a quantidade de Valores Orientadores:", list(quantidade_analise_options.keys()), key="quantidade_analise_1", index=None)
 
         # Verificar se a chave existe no dicionário antes de acessá-la
         if quantidade_analise_texto in quantidade_analise_options:
@@ -428,7 +433,6 @@ def main():
 
 
         if quantidade_analise == 2:
-            st.text("Escolha os Valores Orientadores")
 
             valor_primario = None
             ordem_planilhas = None
@@ -438,7 +442,6 @@ def main():
             valor_primario, ordem_planilhas, valor_secundario, ordem_planilhas2 = abrir_radiobutton_modal_2_valores(2)
 
         elif quantidade_analise == 3:
-            st.text("Escolha os Valores Orientadores")
 
             valor_primario = None
             ordem_planilhas = None
@@ -452,8 +455,10 @@ def main():
             valor_primario, ordem_planilhas, valor_secundario, ordem_planilhas2, valor_terceario, ordem_planilhas3 = abrir_radiobutton_modal_3_valores(2)
 
         if (quantidade_analise == 2 and (valor_primario is not None and ordem_planilhas is not None and valor_secundario is not None and ordem_planilhas2 is not None)) or (quantidade_analise == 3 and (valor_primario is not None and ordem_planilhas is not None and valor_secundario is not None and ordem_planilhas2 is not None and valor_terceario is not None and ordem_planilhas3 is not None)):
-        
-            if st.button("Fazer Análise"):
+           
+            st.divider()  # 👈 Draws a horizontal rule
+
+            if st.button("Fazer Análise", help="Clique apenas quando todos os valores forem escolhidos!", type="primary"):
                 progresso_placeholder = st.empty()
                 progresso_bar = progresso_placeholder.progress(0)
                 if quantidade_analise == 2:
