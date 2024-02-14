@@ -1,13 +1,13 @@
 import openpyxl
 
-def main(novo_caminho,valor_primario, ordem_planilhas,valor_secundario, ordem_planilhas2):
+def main(caminho_final,valor_primario, ordem_planilhas,valor_secundario, ordem_planilhas2):
 
-    caminho_resultado = novo_caminho
+    caminho_resultado = caminho_final
     caminho_cetesb = 'Tabelas Consulta/Tabelas/Tabela_Cetesb.xlsx'
     caminho_epa = 'Tabelas Consulta/Tabelas/Tabela_EPA.xlsx'
     caminho_listaholandesa = 'Tabelas Consulta/Tabelas/Tabela_ListaHolandesa.xlsx'
     caminho_conama = 'Tabelas Consulta/Tabelas/Tabela_Conama.xlsx'
-    caminho_analise = novo_caminho
+    caminho_analise = caminho_final
 
     # Carregar as planilhas
     wb_resultado = openpyxl.load_workbook(caminho_resultado)
