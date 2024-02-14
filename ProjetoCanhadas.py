@@ -369,13 +369,13 @@ def carregar_analise_2_valores(uploaded_file, novo_caminho, escolha, quantidade_
         Ceimic.main(uploaded_file, novo_caminho)
         progresso += 25
         yield progresso
-        
+        download_excel1(novo_caminho)
         # Etapa 2: Organizar
         import Organizar
         Organizar.main(novo_caminho)
         progresso += 40
         yield progresso
-        
+        download_excel2(novo_caminho)
         # Etapa 3: Analise2
         import Analise2
         Analise2.main(novo_caminho, valor_primario, ordem_planilhas, valor_secundario, ordem_planilhas2)
@@ -483,6 +483,44 @@ def download_excel(novo_caminho):
     with st.spinner("Baixando Excel..."):
         st.success("Download concluído. Clique abaixo para baixar.")
         st.download_button(
+            key="123",
+            label="Baixar Resultado da Análise",
+            data=file_bytes,
+            file_name=nome_arquivo,
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        
+        
+def download_excel1(novo_caminho):
+    # Configurar o nome do arquivo para download
+    nome_arquivo = os.path.basename(novo_caminho)
+    
+    with open(novo_caminho, "rb") as file:
+        # Ler os bytes do arquivo
+        file_bytes = file.read()
+    
+    # Configurar o botão de download
+    with st.spinner("Baixando Excel..."):
+        st.success("Download concluído. Clique abaixo para baixar.")
+        st.download_button(
+            key="456",
+            label="Baixar Resultado da Análise",
+            data=file_bytes,
+            file_name=nome_arquivo,
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        
+def download_excel2(novo_caminho):
+    # Configurar o nome do arquivo para download
+    nome_arquivo = os.path.basename(novo_caminho)
+    
+    with open(novo_caminho, "rb") as file:
+        # Ler os bytes do arquivo
+        file_bytes = file.read()
+    
+    # Configurar o botão de download
+    with st.spinner("Baixando Excel..."):
+        st.success("Download concluído. Clique abaixo para baixar.")
+        st.download_button(
+            key="789",
             label="Baixar Resultado da Análise",
             data=file_bytes,
             file_name=nome_arquivo,
