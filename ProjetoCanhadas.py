@@ -1,7 +1,6 @@
 import streamlit as st
 import os
 import pandas as pd
-from pathlib import Path
 
 
 def abrir_radiobutton_modal_3_valores(contador, escolha_anterior=None,):
