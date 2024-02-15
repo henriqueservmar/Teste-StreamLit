@@ -383,41 +383,16 @@ def carregar_analise_2_valores(uploaded_file, novo_caminho, escolha, quantidade_
         progresso += 35
         yield progresso
         
-
-
-#    hide_menu_style = """
-#            <style>
-#            #MainMenu {visibility: hidden;}
-#                footer {visibility: hidden;}
-#                header {visibility: hidden;}
-#            </style>
-#            """
-#    st.markdown(hide_menu_style, unsafe_allow_html=True)
-
-#        nome_arquivo = st.text_input("Digite o nome do novo arquivo:", key="nome_arquivo1")
-#
-#        if nome_arquivo:
-#            novo_caminho = criar_excel_vazio(nome_arquivo, uploaded_file)
-#        else:
-#            st.warning("Por favor, insira um nome para o novo arquivo.") 
-#            novo_caminho = None
-
-#        if quantidade_analise_texto in quantidade_analise_options:
-#            quantidade_analise = quantidade_analise_options[quantidade_analise_texto]
-#        else:
-#            st.warning("Por favor, insira um nome para o novo arquivo.")
-#            quantidade_analise = None
-
-#    hide_menu_style = """
-#            <style>
-#            #MainMenu {visibility: hidden;}
-#                footer {visibility: hidden;}
-#                header {visibility: hidden;}
-#            </style>
-#            """
-#    st.markdown(hide_menu_style, unsafe_allow_html=True)
-
 def main():
+
+    hide_menu_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+                footer {visibility: hidden;}
+                header {visibility: hidden;}
+            </style>
+            """
+    st.markdown(hide_menu_style, unsafe_allow_html=True)
 
     st.title("SERVMAR")
     st.subheader("Projeto Canhadas")
