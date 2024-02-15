@@ -371,23 +371,17 @@ def carregar_analise_2_valores(uploaded_file, novo_caminho, escolha, quantidade_
         progresso += 25
         yield progresso
 
-
         # Etapa 2: Organizar
         import Organizar
         Organizar.main(novo_caminho)
         progresso += 40
         yield progresso
-        df = pd.read_excel(novo_caminho)
-        st.write(df)
-
 
         # Etapa 3: Analise2
         import Analise2
         Analise2.main(novo_caminho, valor_primario, ordem_planilhas, valor_secundario, ordem_planilhas2)
         progresso += 35
         yield progresso
-        df = pd.read_excel(novo_caminho)
-        st.write(df)
         
 
 
@@ -400,43 +394,78 @@ def carregar_analise_2_valores(uploaded_file, novo_caminho, escolha, quantidade_
 #            """
 #    st.markdown(hide_menu_style, unsafe_allow_html=True)
 
-from pathlib import Path
+#        nome_arquivo = st.text_input("Digite o nome do novo arquivo:", key="nome_arquivo1")
+#
+#        if nome_arquivo:
+#            novo_caminho = criar_excel_vazio(nome_arquivo, uploaded_file)
+#        else:
+#            st.warning("Por favor, insira um nome para o novo arquivo.") 
+#            novo_caminho = None
+
+#        if quantidade_analise_texto in quantidade_analise_options:
+#            quantidade_analise = quantidade_analise_options[quantidade_analise_texto]
+#        else:
+#            st.warning("Por favor, insira um nome para o novo arquivo.")
+#            quantidade_analise = None
+
+#    hide_menu_style = """
+#            <style>
+#            #MainMenu {visibility: hidden;}
+#                footer {visibility: hidden;}
+#                header {visibility: hidden;}
+#            </style>
+#            """
+#    st.markdown(hide_menu_style, unsafe_allow_html=True)
 
 def main():
+
     st.title("SERVMAR")
     st.subheader("Projeto Canhadas")
     
-    uploaded_file = st.file_uploader("Carregue seu arquivo Excel:", type=["xlsx", "xls"], key="excel_uploader_1", label_visibility="visible")
+    uploaded_file = st.file_uploader("Carregue seu arquivo Excel:", type=["xlsx", "xls"], key="excel_uploader_1",label_visibility="visible")
 
     if uploaded_file:
         df = pd.read_excel(uploaded_file)
         st.write("Dados do arquivo Excel:")
         st.write(df)
 
-        nome_arquivo = st.text_input("Digite o nome do novo arquivo:", key="nome_arquivo1")
+        # Extrair diretório do caminho do arquivo escolhido
+        diretório, _ = os.path.split(uploaded_file.name)
+        
+
+        nome_arquivo = st.text_input("Digite o nome do novo arquivo:", key="nome_arquivo")
 
         if nome_arquivo:
-            novo_caminho = criar_excel_vazio(nome_arquivo, uploaded_file)
+            novo_caminho = os.path.join(diretório, nome_arquivo + ".xlsx")
         else:
-            st.warning("Por favor, insira um nome para o novo arquivo.") 
-            novo_caminho = None
-
-        col1, col2 = st.columns(2)
-
-        with col1:
-            escolha = st.radio("Escolha de qual laboratório a análise deve ser feita:", ["Ceimic"], key="escolha_laboratorio_1")
-        
-        with col2:
-            quantidade_analise_options = {"2 Valores Orientadores": 2, "3 Valores Orientadores": 3}
-            quantidade_analise_texto = st.radio("Escolha a quantidade de Valores Orientadores:", list(quantidade_analise_options.keys()), key="quantidade_analise_1", index=None)
-
-        if quantidade_analise_texto in quantidade_analise_options:
-            quantidade_analise = quantidade_analise_options[quantidade_analise_texto]
-        else:
+            novo_caminho = os.path.join(diretório, ".xlsx")
             st.warning("Por favor, insira um nome para o novo arquivo.")
+
+        if nome_arquivo:  # Verifica se um nome de arquivo foi inserido
+            # Mostrar opções seguintes somente se o nome do arquivo for inserido
+            col1, col2 = st.columns(2)
+
+            with col1:
+                escolha = st.radio("Escolha de qual laboratório a análise deve ser feita:", ["Ceimic"], key="escolha_laboratorio_1")
+
+            with col2:
+                # Mapeamento de opções de texto para valores numéricos
+                quantidade_analise_options = {"2 Valores Orientadores": 2, "3 Valores Orientadores": 3}
+                # Usando os textos descritivos no widget, mas obtendo os valores numéricos quando necessário
+                quantidade_analise_texto = st.radio("Escolha a quantidade de Valores Orientadores:", list(quantidade_analise_options.keys()), key="quantidade_analise_1", index=None)
+
+            # Verificar se a chave existe no dicionário antes de acessá-la
+            if quantidade_analise_texto in quantidade_analise_options:
+                quantidade_analise = quantidade_analise_options[quantidade_analise_texto]
+            else:
+                quantidade_analise = None  # Ou outro valor padrão que faça sentido no seu código
+        else:
+            # Oculta as opções seguintes se o nome do arquivo não for inserido
             quantidade_analise = None
 
+
         if quantidade_analise == 2:
+
             valor_primario = None
             ordem_planilhas = None
             valor_secundario = None
@@ -445,6 +474,7 @@ def main():
             valor_primario, ordem_planilhas, valor_secundario, ordem_planilhas2 = abrir_radiobutton_modal_2_valores(2)
 
         elif quantidade_analise == 3:
+
             valor_primario = None
             ordem_planilhas = None
             valor_secundario = None
@@ -458,41 +488,20 @@ def main():
 
         if (quantidade_analise == 2 and (valor_primario is not None and ordem_planilhas is not None and valor_secundario is not None and ordem_planilhas2 is not None)) or (quantidade_analise == 3 and (valor_primario is not None and ordem_planilhas is not None and valor_secundario is not None and ordem_planilhas2 is not None and valor_terceario is not None and ordem_planilhas3 is not None)):
            
-            st.divider()  
-    
+            st.divider()  # 👈 Draws a horizontal rule
+
             if st.button("Fazer Análise", type="primary"):
-                if novo_caminho:
-                    progresso_placeholder = st.empty()
-                    progresso_bar = progresso_placeholder.progress(0)
-                    if quantidade_analise == 2:
-                        for progresso in carregar_analise_2_valores(uploaded_file, novo_caminho, escolha, quantidade_analise, valor_primario, ordem_planilhas, valor_secundario, ordem_planilhas2):
-                            progresso_bar.progress(progresso)
-                    elif quantidade_analise == 3:
-                        for progresso in carregar_analise_3_valores(uploaded_file, novo_caminho, escolha, quantidade_analise, valor_primario, ordem_planilhas, valor_secundario, ordem_planilhas2, valor_terceario, ordem_planilhas3):
-                            progresso_bar.progress(progresso)
-                    download_excel(novo_caminho)
-                    df = pd.read_excel(novo_caminho)
-                    st.write(df)
-                else:
-                    st.error("Erro ao criar o novo arquivo. Verifique o nome e tente novamente.")
+                progresso_placeholder = st.empty()
+                progresso_bar = progresso_placeholder.progress(0)
+                if quantidade_analise == 2:
+                    for progresso in carregar_analise_2_valores(uploaded_file, novo_caminho, escolha, quantidade_analise, valor_primario, ordem_planilhas, valor_secundario, ordem_planilhas2):
+                        progresso_bar.progress(progresso)
+                elif quantidade_analise == 3:
+                    for progresso in carregar_analise_3_valores(uploaded_file, novo_caminho, escolha, quantidade_analise, valor_primario, ordem_planilhas, valor_secundario, ordem_planilhas2, valor_terceario, ordem_planilhas3):
+                        progresso_bar.progress(progresso)
 
-import os
-
-def criar_excel_vazio(nome_arquivo, uploaded_file):
-    try:
-        df = pd.read_excel(uploaded_file)
-        downloads_path = str(Path.home() / "Downloads")
-        
-        # Verifica se o diretório de destino existe, senão, cria-o
-        if not os.path.exists(downloads_path):
-            os.makedirs(downloads_path)
-        
-        novo_caminho_download = os.path.join(downloads_path, nome_arquivo + ".xlsx")
-        df.to_excel(novo_caminho_download, index=False)
-        return novo_caminho_download
-    except Exception as e:
-        st.error(f"Erro ao criar o novo arquivo: {e}")
-        return None
+                # Adiciona a funcionalidade de download
+                download_excel(novo_caminho)
 
 def download_excel(novo_caminho):
     # Configurar o nome do arquivo para download
@@ -510,7 +519,6 @@ def download_excel(novo_caminho):
             data=file_bytes,
             file_name=nome_arquivo,
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-        
         
             
 if __name__ == "__main__":
