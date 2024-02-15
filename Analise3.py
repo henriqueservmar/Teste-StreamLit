@@ -141,8 +141,18 @@ def main(novo_caminho,valor_primario, ordem_planilhas,valor_secundario, ordem_pl
             elif ordem_planilhas == 'o':
                 sheet_resultado.cell(row=2, column=indice_coluna_padrao, value="Valor Conama")
 
-            # Adicionar "n.e" às células em branco após inserir os valores do último dado lido
+            # Encontrar a última linha onde a primeira coluna contém um valor diferente de None
+            max_row = sheet_resultado.max_row
+            
+            # Encontrar a última linha onde a primeira coluna contém um valor diferente de None
             for row_resultado in sheet_resultado.iter_rows(min_row=3, max_row=sheet_resultado.max_row,
+                                                            min_col=1, max_col=1):  # Itera sobre a coluna A
+                if row_resultado[0].value is None:  # Verifica se a célula na coluna A é None
+                    max_row = row_resultado[0].row - 1  # Define max_row como a linha anterior à primeira célula None na coluna A
+                    break  # Sai do loop após encontrar a primeira célula None na coluna A
+                
+            # Adicionar "n.e" às células em branco após inserir os valores do último dado lido
+            for row_resultado in sheet_resultado.iter_rows(min_row=3, max_row=max_row,
                                                             min_col=indice_coluna_padrao, max_col=sheet_resultado.max_column):
                 for cell_resultado in row_resultado:
                     if cell_resultado.value is None:
