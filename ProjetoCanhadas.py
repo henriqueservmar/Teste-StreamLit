@@ -476,10 +476,17 @@ def main():
                 else:
                     st.error("Erro ao criar o novo arquivo. Verifique o nome e tente novamente.")
 
+import os
+
 def criar_excel_vazio(nome_arquivo, uploaded_file):
     try:
         df = pd.read_excel(uploaded_file)
         downloads_path = str(Path.home() / "Downloads")
+        
+        # Verifica se o diretório de destino existe, senão, cria-o
+        if not os.path.exists(downloads_path):
+            os.makedirs(downloads_path)
+        
         novo_caminho_download = os.path.join(downloads_path, nome_arquivo + ".xlsx")
         df.to_excel(novo_caminho_download, index=False)
         return novo_caminho_download
