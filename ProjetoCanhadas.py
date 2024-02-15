@@ -401,6 +401,8 @@ def carregar_analise_2_valores(uploaded_file, novo_caminho, escolha, quantidade_
 #            """
 #    st.markdown(hide_menu_style, unsafe_allow_html=True)
 
+import platform
+
 def main():
     st.title("SERVMAR")
     st.subheader("Projeto Canhadas")
@@ -478,7 +480,7 @@ def main():
 def criar_excel_vazio(nome_arquivo, uploaded_file):
     try:
         df = pd.read_excel(uploaded_file)
-        downloads_path = str(Path.home() / "Downloads")
+        downloads_path = get_downloads_path()
         novo_caminho_download = os.path.join(downloads_path, nome_arquivo + ".xlsx")
         df.to_excel(novo_caminho_download, index=False)
         return novo_caminho_download
@@ -502,6 +504,17 @@ def download_excel(novo_caminho):
             data=file_bytes,
             file_name=nome_arquivo,
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+
+def get_downloads_path():
+    system = platform.system()
+    if system == "Windows":
+        return os.path.join(os.path.expanduser("~"), "Downloads")
+    elif system == "Darwin":  # macOS
+        return os.path.join(os.path.expanduser("~"), "Downloads")
+    elif system == "Linux":
+        return os.path.join(os.path.expanduser("~"), "Downloads")
+    else:
+        raise NotImplementedError(f"Unsupported operating system: {system}")
                 
     
 if __name__ == "__main__":
