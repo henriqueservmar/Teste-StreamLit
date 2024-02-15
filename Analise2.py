@@ -144,9 +144,10 @@ def main(novo_caminho,valor_primario, ordem_planilhas,valor_secundario, ordem_pl
             # Adicionar "n.e" às células em branco após inserir os valores do último dado lido
             for row_resultado in sheet_resultado.iter_rows(min_row=3, max_row=sheet_resultado.max_row,
                                                             min_col=indice_coluna_padrao, max_col=sheet_resultado.max_column):
-                for cell_resultado in row_resultado:
-                    if cell_resultado.value is None:
-                        cell_resultado.value = 'n.e'
+                if row_resultado[0].value is not None:  # Verifica se a célula na coluna A não é None
+                    for cell_resultado in row_resultado[1:]:  # Começa da segunda célula na linha
+                        if cell_resultado.value is None:
+                            cell_resultado.value = 'n.e'
 
     # Salvar as alterações na planilha Resultado_Final_Organizado.xlsx
     wb_resultado.save(caminho_analise)
@@ -272,11 +273,10 @@ def main(novo_caminho,valor_primario, ordem_planilhas,valor_secundario, ordem_pl
                     sheet_resultado.cell(row=row, column=indice_coluna_secundaria, value="n.a")
 
         # Imprimir "Valor Cetesb" ou "Valor EPA" uma vez acima do primeiro valor após o último dado
-        if ultimo_dado_lido:
-            # Adicionar "n.e" às células em branco após inserir os valores do último dado lido
-            for row_resultado in sheet_resultado.iter_rows(min_row=3, max_row=sheet_resultado.max_row,
-                                                            min_col=indice_coluna_padrao, max_col=sheet_resultado.max_column):
-                for cell_resultado in row_resultado:
+        for row_resultado in sheet_resultado.iter_rows(min_row=3, max_row=sheet_resultado.max_row,
+                                                        min_col=indice_coluna_padrao, max_col=sheet_resultado.max_column):
+            if row_resultado[0].value is not None:  # Verifica se a célula na coluna A não é None
+                for cell_resultado in row_resultado[1:]:  # Começa da segunda célula na linha
                     if cell_resultado.value is None:
                         cell_resultado.value = 'n.e'
 
