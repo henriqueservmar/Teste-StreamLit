@@ -23,13 +23,13 @@ def authenticate():
 def main():
     st.set_page_config(page_title="Projeto Canhadas", page_icon="servmarico.ico")
         
-#    hide_menu_style = """
-#            <style>
-#            #MainMenu {visibility: hidden;}
-#                footer {visibility: hidden;}
-#                header {visibility: hidden;}
-#            """
-#    st.markdown(hide_menu_style, unsafe_allow_html=True)
+    hide_menu_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+                footer {visibility: hidden;}
+                header {visibility: hidden;}
+            """
+    st.markdown(hide_menu_style, unsafe_allow_html=True)
 
     titulo = st.title("SERVMAR")
 
