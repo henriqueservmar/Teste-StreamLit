@@ -7,6 +7,8 @@ credentials:
       name: Vitor Lucas
       password: defg5678
 cookie:
-  expiry_days: 0.0013889
+#  expiry_days: 0.8 #30 minutos
+#  expiry_days: 0.0104166 #15 minutos
+  expiry_days: 0.0013888 #2 minutos
   key: some_signature_key
   name: some_cookie_name

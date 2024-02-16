@@ -393,7 +393,7 @@ def main():
             </style>
             """
     st.markdown(hide_menu_style, unsafe_allow_html=True)
-
+    
     st.title("SERVMAR")
     st.subheader("Projeto Canhadas")
     
