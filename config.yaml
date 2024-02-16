@@ -1,14 +1,12 @@
 credentials:
   usernames:
     henrique.canhadas:
-      logged_in: False
       name: Henrique Canhadas 
       password: ab12
     vlucas:
-      logged_in: False
       name: Vitor Lucas
       password: defg5678
 cookie:
-  expiry_days: 1
+  expiry_days: 0.0013889
   key: some_signature_key
   name: some_cookie_name
